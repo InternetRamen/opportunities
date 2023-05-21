@@ -47,6 +47,7 @@ export default async function Create() {
     };
     if (!user) {
         router.push("/login");
+        return;
     }
     return (
         <main className="w-11/12 max-w-8xl mx-auto my-12">
