@@ -12,7 +12,7 @@ import {
     collection,
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useEffect, useRef } from "react";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBiYeq3FhHS69uU6cx1dD59MbESb2E7Rgs",
@@ -35,7 +35,7 @@ export default async function Create() {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData);
-        if (!user) { 
+        if (!user) {
             router.push("/login");
         }
         data.author = user!.uid;
@@ -45,10 +45,12 @@ export default async function Create() {
         }
         return Promise.resolve();
     };
-    if (!user) {
-        router.push("/login");
-        return;
-    }
+    useEffect(() => {
+        if (!user) {
+            router.push("/login");
+        }
+    }, []);
+
     return (
         <main className="w-11/12 max-w-8xl mx-auto my-12">
             <Navbar />

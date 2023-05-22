@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import randomAdjectives from "../../public/randomAdjectives.json";
 import randomAnimals from "../../public/randomAnimals.json";
+import Link from "next/link";
 const firebaseConfig = {
     apiKey: "AIzaSyBiYeq3FhHS69uU6cx1dD59MbESb2E7Rgs",
     authDomain: "opportunities-b5dca.firebaseapp.com",
@@ -50,12 +51,13 @@ export default function Login() {
                     posts: [],
                 });
             }
-            if (user) router.push("/");
+            router.push("/");
         });
     };
 
     return (
         <main className="w-11/12 max-w-8xl mx-auto my-12">
+            <Link href="/">Back to Home</Link>
             <h1 onClick={handleGoogleClick} className="cursor-pointer">
                 Sign up with Google
             </h1>

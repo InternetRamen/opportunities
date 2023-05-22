@@ -10,6 +10,7 @@ import {
     getDoc,
     DocumentData,
 } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBiYeq3FhHS69uU6cx1dD59MbESb2E7Rgs",
@@ -25,6 +26,7 @@ export default function Navbar() {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
     const db = getFirestore();
+    const router = useRouter();
     const [user, setUser] = useState<DocumentData | null>(null);
     onAuthStateChanged(auth, async (user) => {
         if (user) {
@@ -35,11 +37,16 @@ export default function Navbar() {
             setUser(null);
         }
     });
+    const handleLogout = () => {
+        auth.signOut();
+        router.push("/");
+    }
 
     return (
         <div className="flex justify-between font-bold">
             <Link href="/">Opportunities</Link>
             <div className="flex gap-24">
+                {user && <button onClick={handleLogout}>Log out</button>}
                 {user && <Link href="/create">Add</Link>}
                 <Link href={user ? "/profile" : "/login"}>
                     {user ? user.name : "Login"}
