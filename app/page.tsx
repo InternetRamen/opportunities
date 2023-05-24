@@ -1,9 +1,4 @@
-'use client'
-import {
-    getFirestore,
-    getDocs,
-    collection,
-} from "firebase/firestore";
+import { getFirestore, getDocs, collection} from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBiYeq3FhHS69uU6cx1dD59MbESb2E7Rgs",
@@ -18,6 +13,7 @@ const firebaseConfig = {
 import Navbar from "@/components/Navbar";
 import { initializeApp } from "firebase/app";
 import Card from "@/components/Card";
+import { useEffect, useState } from "react";
 
 interface CardProps {
     title: string;
@@ -32,7 +28,6 @@ interface CardProps {
 export default async function Home() {
     const app = initializeApp(firebaseConfig);
     const db = getFirestore();
-
     const postSnap = await getDocs(collection(db, "posts"));
     const posts = postSnap.docs.map(
         (doc) =>
@@ -41,6 +36,19 @@ export default async function Home() {
                 id: doc.id,
             } as CardProps)
     );
+    console.log(posts);
+    // const [posts, setPosts] = useState<CardProps[]>([]);
+    // const postSnap = await getDocs(collection(db, "posts"));
+    // postSnap.forEach((doc) => {
+    //     setPosts((prev) => [
+    //         ...prev,
+    //         {
+    //             ...doc.data(),
+    //             id: doc.id,
+    //         } as CardProps,
+    //     ]);
+    // });
+    // console.log(posts)
     return (
         <main className="w-11/12 max-w-8xl mx-auto my-12">
             <Navbar />
