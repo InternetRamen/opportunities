@@ -18,7 +18,7 @@ export default function Card(props: CardProps) {
             onClick={() => router.push(`/post/${props.id}`)}
         >
             <div>
-                <h1 className="font-medium text-md">{props.title}</h1>
+                <a href={`/post/${props.id}`} className="font-medium text-md visited:text-gray-500">{props.title}</a>
                 <h2 className="text-sm">
                     {props.category} - {props.type}
                 </h2>
