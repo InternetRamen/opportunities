@@ -25,9 +25,12 @@ interface CardProps {
     id: string;
 }
 
+export const revalidate = 10;
+
 export default async function Home() {
     const app = initializeApp(firebaseConfig);
     const db = getFirestore();
+
     const postSnap = await getDocs(collection(db, "posts"));
     const posts = postSnap.docs.map(
         (doc) =>
