@@ -14,8 +14,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  )
+      <html lang="en">
+          <head>
+              <script
+                  async
+                  src="https://analytics.umami.is/script.js"
+                  data-website-id="e15a0c0a-3a68-4194-930f-5167e2b80a29"
+              ></script>
+          </head>
+          <body>{children}</body>
+      </html>
+  );
 }

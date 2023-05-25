@@ -13,7 +13,6 @@ const firebaseConfig = {
 import Navbar from "@/components/Navbar";
 import { initializeApp } from "firebase/app";
 import Card from "@/components/Card";
-import { useEffect, useState } from "react";
 
 interface CardProps {
     title: string;

@@ -34,7 +34,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         };
     const author = await getDoc(doc(db, "users", post.author));
     const authorData = author.data();
-
+    console.log(post, authorData)
     return (
         <main className="w-11/12 max-w-8xl mx-auto my-12">
             <Navbar />
