@@ -2,18 +2,9 @@
 import CreateForm from "@/components/Form";
 import Navbar from "@/components/Navbar";
 import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import {
-    getFirestore,
-    doc,
-    setDoc,
-    getDoc,
-    DocumentData,
-    addDoc,
-    collection,
-} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBiYeq3FhHS69uU6cx1dD59MbESb2E7Rgs",
@@ -30,13 +21,11 @@ export default async function Create() {
     const auth = getAuth();
     const router = useRouter();
     const user = auth.currentUser;
-
     useEffect(() => {
         if (!user) {
             router.push("/login");
         }
     }, []);
-
     return (
         <main className="w-11/12 max-w-8xl mx-auto my-12">
             <Navbar />

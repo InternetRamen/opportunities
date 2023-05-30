@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useState } from "react";
+import { User, getAuth, onAuthStateChanged } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import {
     getFirestore,
@@ -10,7 +9,8 @@ import {
     getDoc,
     DocumentData,
 } from "firebase/firestore";
-import { useRouter } from "next/navigation";
+import LogoutButton from "./LogoutButton";
+import { useState } from "react";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBiYeq3FhHS69uU6cx1dD59MbESb2E7Rgs",
@@ -26,31 +26,37 @@ export default function Navbar() {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
     const db = getFirestore();
-    const router = useRouter();
-    const [user, setUser] = useState<DocumentData | null>(null);
+    const [name, setName] = useState<string | null>(null)
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            const toGet = await getDoc(doc(db, "users", user.uid));
-
-            setUser(toGet.data() || null);
+            console.log(user);
+            const dataName = await getName(user.uid)
+            setName(dataName);
         } else {
-            setUser(null);
+            setName(null);
         }
     });
-    const handleLogout = () => {
-        auth.signOut();
-        router.push("/");
+    const getName = async (id: string) => {
+        const docRef = doc(db, "users", id);
+        const docSnap = await getDoc(docRef);
+        console.log(docSnap.data())
+        if (docSnap.exists()) {
+            return docSnap.data().name;
+        } else {
+            return null;
+        }
     }
-
     return (
         <div className="flex justify-between font-bold">
             <Link href="/">Opportunities</Link>
             <div className="flex gap-24">
-                {user && <button onClick={handleLogout}>Log out</button>}
-                {user && <Link href="/create">Add</Link>}
-                <Link href={user ? "/profile" : "/login"}>
-                    {user ? user.name : "Login"}
-                </Link>
+                {name && <LogoutButton />}
+                {name && <Link href="/create">Add</Link>}
+                {name ? (
+                    <Link href={"/profile"}>{name}</Link>
+                ) : (
+                    <Link href={"/login"}>Login</Link>
+                )}
             </div>
         </div>
     );

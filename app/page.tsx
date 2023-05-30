@@ -24,7 +24,12 @@ interface CardProps {
     id: string;
 }
 
-export const revalidate = 10;
+export const dynamic = 'auto',
+    dynamicParams = true,
+    revalidate = 0,
+    fetchCache = 'auto',
+    runtime = 'nodejs',
+    preferredRegion = 'auto'
 
 export default async function Home() {
     const app = initializeApp(firebaseConfig);
@@ -38,7 +43,7 @@ export default async function Home() {
                 id: doc.id,
             } as CardProps)
     );
-    console.log(posts);
+    console.log("data");
     // const [posts, setPosts] = useState<CardProps[]>([]);
     // const postSnap = await getDocs(collection(db, "posts"));
     // postSnap.forEach((doc) => {
